@@ -1,21 +1,29 @@
-import { Bot, FileSearch2 } from 'lucide-react'
+﻿import { Bot, FileSearch2, Sparkles } from 'lucide-react'
 
 export default function AnswerEmptyState() {
   return (
     <div className="answer-card">
-      <div className="flex items-center gap-3 border-b border-white/[0.06] px-5 py-4 sm:px-6">
-        <span className="ai-icon"><Bot size={17} /></span>
+      <div className="flex items-center gap-3 border-b border-white/[0.08] bg-space-900/40 px-5 py-4 sm:px-6">
+        <span className="ai-icon">
+          <Bot size={18} />
+        </span>
         <div>
-          <p className="text-sm font-medium text-white">Generated response</p>
-          <p className="text-[11px] text-zinc-600">Grounded in retrieved document context</p>
+          <p className="text-sm font-bold text-white">Grounded Neural Synthesis</p>
+          <p className="text-[11px] font-medium text-slate-400">Awaiting your prompt and document index</p>
         </div>
       </div>
-      <div className="flex min-h-[260px] flex-col items-center justify-center px-6 py-10 text-center">
-        <span className="empty-icon"><FileSearch2 size={24} /></span>
-        <p className="mt-5 text-sm font-medium text-zinc-300">Your answer will appear here</p>
-        <p className="mt-2 max-w-md text-xs leading-5 text-zinc-600">
-          Upload your documents, ask a question above, and the grounded response will be shown here with its supporting sources.
+      <div className="flex min-h-[280px] flex-col items-center justify-center px-6 py-12 text-center">
+        <span className="empty-icon">
+          <FileSearch2 size={26} />
+        </span>
+        <h3 className="mt-5 text-base font-bold text-slate-100">Ready for Document Analysis</h3>
+        <p className="mt-2 max-w-md text-xs leading-relaxed text-slate-400">
+          Upload and index your PDF documents in the ingestion bay, then submit questions above to generate grounded answers with transparent citations.
         </p>
+        <div className="mt-6 flex items-center gap-2 rounded-full border border-cyan-500/20 bg-cyan-950/40 px-3.5 py-1.5 text-[11px] font-medium text-cyan-300">
+          <Sparkles size={13} />
+          <span>Zero hallucinations · Pure context-grounded intelligence</span>
+        </div>
       </div>
     </div>
   )

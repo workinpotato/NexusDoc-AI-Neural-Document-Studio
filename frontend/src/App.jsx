@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState } from 'react'
-import { ArrowDown, BookOpen, Database, RotateCcw, Sparkles } from 'lucide-react'
+﻿import { useEffect, useRef, useState } from 'react'
+import { ArrowRight, BookOpen, Cpu, Database, RotateCcw, ShieldCheck, Sparkles, Zap } from 'lucide-react'
 import Header from './components/Header'
 import UploadZone from './components/UploadZone'
 import DocumentLibrary from './components/DocumentLibrary'
@@ -11,7 +11,7 @@ import SourceList from './components/SourceList'
 import Notice from './components/Notice'
 import { askQuestion, checkHealth, uploadDocuments } from './services/api'
 
-const HISTORY_KEY = 'rag-intelligence-history'
+const HISTORY_KEY = 'nexus-doc-ai-history'
 
 function readHistory() {
   try {
@@ -40,7 +40,9 @@ export default function App() {
     checkHealth()
       .then(() => active && setSystemStatus('online'))
       .catch(() => active && setSystemStatus('offline'))
-    return () => { active = false }
+    return () => {
+      active = false
+    }
   }, [])
 
   useEffect(() => {
@@ -55,13 +57,23 @@ export default function App() {
   }, [])
 
   function addFiles(incomingFiles) {
-    const pdfs = Array.from(incomingFiles).filter(file => file.type === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf'))
+    const pdfs = Array.from(incomingFiles).filter(
+      file => file.type === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf')
+    )
     const rejectedCount = incomingFiles.length - pdfs.length
     setSelectedFiles(current => {
       const existing = new Set(current.map(file => `${file.name}-${file.size}-${file.lastModified}`))
       return [...current, ...pdfs.filter(file => !existing.has(`${file.name}-${file.size}-${file.lastModified}`))]
     })
-    setUploadNotice(rejectedCount ? { type: 'error', title: 'PDF files only', message: `${rejectedCount} unsupported file${rejectedCount === 1 ? ' was' : 's were'} skipped.` } : null)
+    setUploadNotice(
+      rejectedCount
+        ? {
+            type: 'error',
+            title: 'Unsupported file format',
+            message: `${rejectedCount} non-PDF file${rejectedCount === 1 ? ' was' : 's were'} skipped. NexusDoc AI accepts PDF documents.`
+          }
+        : null
+    )
   }
 
   async function handleUpload() {
@@ -79,13 +91,17 @@ export default function App() {
       setSelectedFiles([])
       setUploadNotice({
         type: 'success',
-        title: 'Documents indexed successfully',
-        message: `${data.files.length} document${data.files.length === 1 ? ' is' : 's are'} now ready for questions.`,
+        title: 'Vector Index Created',
+        message: `${data.files.length} document${data.files.length === 1 ? ' was' : 's were'} parsed and indexed into FAISS.`
       })
       setSystemStatus('online')
       window.setTimeout(() => questionRef.current?.focus(), 100)
     } catch (error) {
-      setUploadNotice({ type: 'error', title: 'Unable to index documents', message: error.message })
+      setUploadNotice({
+        type: 'error',
+        title: 'Knowledge Ingestion Failed',
+        message: error.message || 'An unexpected error occurred while processing documents.'
+      })
     } finally {
       setUploading(false)
     }
@@ -107,7 +123,7 @@ export default function App() {
       localStorage.setItem(HISTORY_KEY, JSON.stringify(nextHistory))
       setSystemStatus('online')
     } catch (error) {
-      setQueryError(error.message)
+      setQueryError(error.message || 'Failed to generate a grounded response.')
     } finally {
       setQuerying(false)
     }
@@ -124,35 +140,61 @@ export default function App() {
   const hasResult = Boolean(answer || queryError || querying)
 
   return (
-    <div className="min-h-screen bg-ink text-zinc-100">
+    <div className="min-h-screen bg-space-950 text-slate-100 selection:bg-cyan-500/30 selection:text-cyan-200">
       <Header status={systemStatus} onFocusQuestion={() => questionRef.current?.focus()} />
 
-      <main className="relative mx-auto w-full max-w-[1400px] px-4 pb-16 pt-8 sm:px-6 lg:px-8">
+      <main className="relative mx-auto w-full max-w-[1440px] px-4 pb-20 pt-8 sm:px-6 lg:px-8">
         <div className="ambient-glow" aria-hidden="true" />
 
-        <section className="hero-panel relative overflow-hidden rounded-[28px] px-6 py-9 sm:px-10 sm:py-11">
+        {/* Hero Studio Banner */}
+        <section className="hero-panel relative overflow-hidden rounded-[28px] px-6 py-9 sm:px-10 sm:py-12">
           <div className="relative z-10 max-w-3xl">
-            <div className="eyebrow"><Sparkles size={13} /> Document intelligence workspace</div>
-            <h1 className="mt-5 max-w-2xl text-3xl font-semibold tracking-[-0.04em] text-white sm:text-5xl">
-              Your documents. One intelligent interface.
+            <div className="eyebrow">
+              <Sparkles size={13} className="text-cyan-300" />
+              <span>Neural Retrieval & Grounding Studio</span>
+            </div>
+            <h1 className="mt-5 max-w-2xl text-3xl font-extrabold tracking-tight text-white sm:text-5xl sm:leading-[1.15]">
+              Intelligent Document Synthesis with <span className="bg-gradient-to-r from-cyan-400 via-teal-300 to-sky-400 bg-clip-text text-transparent">Zero Hallucinations</span>.
             </h1>
-            <p className="mt-4 max-w-xl text-sm leading-6 text-zinc-400 sm:text-base">
-              Turn PDFs into grounded answers with semantic retrieval, transparent context, and Gemini.
+            <p className="mt-4 max-w-xl text-sm leading-relaxed text-slate-300 sm:text-base">
+              Ingest complex multi-page PDFs, perform high-dimensional FAISS semantic search, and synthesize verified answers with transparent citation evidence.
             </p>
-            <div className="mt-7 flex flex-wrap items-center gap-2 text-xs text-zinc-400">
-              {['PDF documents', 'Semantic retrieval', 'Relevant context', 'Grounded answer'].map((label, index) => (
-                <div key={label} className="flex items-center gap-2">
-                  <span className="flow-step">{index + 1}</span><span>{label}</span>
-                  {index < 3 && <ArrowDown className="mx-1 hidden -rotate-90 text-zinc-700 sm:block" size={13} />}
-                </div>
-              ))}
+
+            {/* Pipeline Steps */}
+            <div className="mt-8 flex flex-wrap items-center gap-2.5 text-xs text-slate-400">
+              {[
+                { label: 'PDF Parsing', icon: BookOpen },
+                { label: 'Vector Indexing', icon: Database },
+                { label: 'Semantic Search', icon: Cpu },
+                { label: 'Grounded Answer', icon: ShieldCheck }
+              ].map((step, index) => {
+                const Icon = step.icon
+                return (
+                  <div key={step.label} className="flex items-center gap-2">
+                    <span className="flow-step">{index + 1}</span>
+                    <span className="flex items-center gap-1 font-semibold text-slate-200">
+                      <Icon size={12} className="text-cyan-400" />
+                      {step.label}
+                    </span>
+                    {index < 3 && (
+                      <ArrowRight className="mx-1 hidden text-slate-600 sm:block" size={13} />
+                    )}
+                  </div>
+                )
+              })}
             </div>
           </div>
-          <div className="hero-orbit" aria-hidden="true"><Database size={30} /><BookOpen size={22} /></div>
+
+          <div className="hero-orbit" aria-hidden="true">
+            <Database size={34} className="text-cyan-400/40" />
+            <Cpu size={24} className="text-teal-400/50" />
+          </div>
         </section>
 
-        <div className="mt-6 grid items-start gap-6 lg:grid-cols-[minmax(320px,0.78fr)_minmax(0,1.45fr)]">
-          <div className="min-w-0">
+        {/* Workbench Workspace Grid */}
+        <div className="mt-8 grid items-start gap-8 lg:grid-cols-[minmax(340px,0.82fr)_minmax(0,1.45fr)]">
+          {/* Left Column: Knowledge Base Bay */}
+          <div className="space-y-6 min-w-0">
             <UploadZone
               files={selectedFiles}
               uploading={uploading}
@@ -160,9 +202,20 @@ export default function App() {
               onRemove={index => setSelectedFiles(files => files.filter((_, fileIndex) => fileIndex !== index))}
               onUpload={handleUpload}
             />
+
+            <DocumentLibrary documents={indexedDocuments} />
+
+            <QueryHistory
+              history={history}
+              onSelect={value => {
+                setQuestion(value)
+                questionRef.current?.focus()
+              }}
+            />
           </div>
 
-          <div className="min-w-0">
+          {/* Right Column: Neural Query & Answer Canvas */}
+          <div className="space-y-6 min-w-0">
             <QuestionInput
               ref={questionRef}
               value={question}
@@ -171,41 +224,59 @@ export default function App() {
               onSubmit={handleQuery}
               onClear={() => setQuestion('')}
             />
-          </div>
-        </div>
 
-        {uploadNotice && (
-          <div className="mt-6">
-            <Notice {...uploadNotice} onRetry={uploadNotice.type === 'error' && selectedFiles.length ? handleUpload : undefined} />
-          </div>
-        )}
-
-        <div className={`mt-6 grid gap-6 ${history.length ? 'lg:grid-cols-2' : 'grid-cols-1'}`}>
-          <DocumentLibrary documents={indexedDocuments} />
-          <QueryHistory history={history} onSelect={value => { setQuestion(value); questionRef.current?.focus() }} />
-        </div>
-
-        <section className={`mt-8 space-y-6 ${hasResult ? 'result-enter' : ''}`}>
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="section-kicker">Analysis</p>
-                <h2 className="mt-1 text-lg font-semibold text-white">Grounded response</h2>
-              </div>
-              {(answer || queryError) && (
-                <button className="secondary-button" onClick={clearResult}><RotateCcw size={14} /> Clear</button>
-              )}
-            </div>
-            {hasResult ? (
-              <AnswerCard answer={answer} sourceCount={sources.length} loading={querying} error={queryError} onRetry={handleQuery} />
-            ) : (
-              <AnswerEmptyState />
+            {uploadNotice && (
+              <Notice
+                {...uploadNotice}
+                onRetry={uploadNotice.type === 'error' && selectedFiles.length ? handleUpload : undefined}
+              />
             )}
-            {!querying && sources.length > 0 && <SourceList sources={sources} />}
-        </section>
+
+            {/* Answer & Evidence Canvas */}
+            <div className={hasResult ? 'result-enter space-y-6' : 'space-y-6'}>
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="section-kicker">Synthesizer Canvas</p>
+                  <h2 className="mt-0.5 text-lg font-bold text-white">Verified Intelligence</h2>
+                </div>
+                {(answer || queryError) && (
+                  <button className="secondary-button" onClick={clearResult}>
+                    <RotateCcw size={13} /> Clear Canvas
+                  </button>
+                )}
+              </div>
+
+              {hasResult ? (
+                <AnswerCard
+                  answer={answer}
+                  sourceCount={sources.length}
+                  loading={querying}
+                  error={queryError}
+                  onRetry={handleQuery}
+                />
+              ) : (
+                <AnswerEmptyState />
+              )}
+
+              {!querying && sources.length > 0 && <SourceList sources={sources} />}
+            </div>
+          </div>
+        </div>
       </main>
 
-      <footer className="border-t border-white/[0.06] px-6 py-6 text-center text-xs text-zinc-600">
-        RAG Intelligence · Retrieval-augmented document assistant
+      {/* Modern Studio Footer */}
+      <footer className="border-t border-white/[0.08] bg-space-950/80 px-6 py-8 text-center backdrop-blur-md">
+        <div className="mx-auto flex max-w-[1440px] flex-col items-center justify-between gap-4 text-xs font-medium text-slate-400 sm:flex-row">
+          <div className="flex items-center gap-2">
+            <span className="h-2 w-2 rounded-full bg-cyan-400"></span>
+            <span className="text-slate-300 font-semibold">NexusDoc AI Studio</span>
+            <span>·</span>
+            <span>Neural RAG Engine with FAISS & Google Gemini</span>
+          </div>
+          <div className="text-slate-400 text-[11px]">
+            Engineered for high-precision, citation-backed document research
+          </div>
+        </div>
       </footer>
     </div>
   )
