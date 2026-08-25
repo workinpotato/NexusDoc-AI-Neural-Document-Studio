@@ -117,32 +117,10 @@ class GeminiEmbeddings(Embeddings):
         return _embed_single_with_retry(text)
 
 
-class LocalSentenceEmbeddings(Embeddings):
-    """
-    Direct sentence-transformers wrapper for LangChain.
-    Fast batch embedding on CPU with zero network calls or API key dependencies.
-    """
-    def __init__(self, model_name: str = "all-MiniLM-L6-v2"):
-        from sentence_transformers import SentenceTransformer
-        self.model = SentenceTransformer(model_name)
-
-    def embed_documents(self, texts: list[str]) -> list[list[float]]:
-        embeddings = self.model.encode(texts, show_progress_bar=False)
-        return embeddings.tolist()
-
-    def embed_query(self, text: str) -> list[float]:
-        embedding = self.model.encode(text, show_progress_bar=False)
-        return embedding.tolist()
-
-
 def _get_embeddings():
-    """Return local SentenceTransformer embeddings if available, otherwise GeminiEmbeddings."""
-    try:
-        print("[embeddings] Using local SentenceTransformer (all-MiniLM-L6-v2).")
-        return LocalSentenceEmbeddings("all-MiniLM-L6-v2")
-    except Exception as e:
-        print(f"[embeddings] Local SentenceTransformer unavailable ({e}), falling back to GeminiEmbeddings.")
-        return GeminiEmbeddings()
+    """Use Gemini embeddings so the serverless backend stays lightweight."""
+    print("[embeddings] Using Gemini embeddings.")
+    return GeminiEmbeddings()
 
 
 # ── Ingest ────────────────────────────────────────────────────────────────────
