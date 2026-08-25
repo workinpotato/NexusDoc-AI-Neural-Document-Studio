@@ -58,7 +58,7 @@ export default function AnswerCard({ answer, sourceCount, loading, error, onRetr
         </div>
       </div>
 
-      <div className="px-5 py-6 sm:px-8 sm:py-7">
+      <div className="px-5 py-5 sm:px-6 sm:py-6">
         {loading ? (
           <div className="flex min-h-32 flex-col items-center justify-center text-center">
             <div className="relative">

@@ -192,9 +192,9 @@ export default function App() {
         </section>
 
         {/* Workbench Workspace Grid */}
-        <div className="mt-5 grid items-start gap-5 lg:grid-cols-[minmax(340px,0.82fr)_minmax(0,1.45fr)]">
+        <div className="mt-4 grid items-start gap-4 lg:grid-cols-[minmax(340px,0.82fr)_minmax(0,1.45fr)]">
           {/* Left Column: Knowledge Base Bay */}
-          <div className="space-y-5 min-w-0">
+          <div className="space-y-4 min-w-0">
             <UploadZone
               files={selectedFiles}
               uploading={uploading}
@@ -215,7 +215,7 @@ export default function App() {
           </div>
 
           {/* Right Column: Neural Query & Answer Canvas */}
-          <div className="space-y-5 min-w-0">
+          <div className="space-y-4 min-w-0">
             <QuestionInput
               ref={questionRef}
               value={question}
@@ -233,7 +233,7 @@ export default function App() {
             )}
 
             {/* Answer & Evidence Canvas */}
-            <div className={hasResult ? 'result-enter space-y-5' : 'space-y-5'}>
+            <div className={hasResult ? 'result-enter space-y-4' : 'space-y-4'}>
               <div className="flex items-center justify-between">
                 <div>
                   <p className="section-kicker">Answer</p>
