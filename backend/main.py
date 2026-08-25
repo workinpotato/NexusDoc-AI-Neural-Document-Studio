@@ -1,5 +1,5 @@
-"""
-main.py — FastAPI entry point
+﻿"""
+main.py — FastAPI entry point for NexusDoc AI
 Endpoints: GET /health, POST /upload, POST /query
 """
 
@@ -19,11 +19,14 @@ DOCUMENTS_DIR = Path(__file__).parent.parent / "documents"
 DOCUMENTS_DIR.mkdir(exist_ok=True)
 
 # ── App ───────────────────────────────────────────────────────────────────────
-app = FastAPI(title="RAG QA System")
+app = FastAPI(
+    title="NexusDoc AI — Neural RAG API",
+    description="Backend service for PDF parsing, FAISS vector indexing, and Gemini-grounded question answering."
+)
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],   # OK for a local university project
+    allow_origins=["*"],
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -32,7 +35,7 @@ app.add_middleware(
 # ── Health ────────────────────────────────────────────────────────────────────
 @app.get("/health")
 def health():
-    return {"status": "ok"}
+    return {"status": "ok", "service": "NexusDoc AI Engine"}
 
 
 # ── Upload ────────────────────────────────────────────────────────────────────
@@ -50,8 +53,6 @@ async def upload(files: List[UploadFile] = File(...)):
         if not safe_name or not safe_name.lower().endswith(".pdf"):
             raise HTTPException(status_code=400, detail=f"{original_name or 'Uploaded file'} is not a PDF.")
 
-        # Keep uploads inside the documents directory even when a client sends
-        # path-like filenames. The endpoint response shape remains unchanged.
         dest = DOCUMENTS_DIR / safe_name
         with dest.open("wb") as f:
             shutil.copyfileobj(file.file, f)
@@ -64,8 +65,6 @@ async def upload(files: List[UploadFile] = File(...)):
         saved_paths.append(str(dest))
 
     try:
-        # A single upload request is one active knowledge base. Rebuilding once
-        # preserves multi-file uploads while excluding every earlier batch.
         rebuild_index(saved_paths)
     except Exception as e:
         traceback.print_exc()
@@ -74,7 +73,7 @@ async def upload(files: List[UploadFile] = File(...)):
             detail=f"Failed to index uploaded documents: {str(e)}"
         )
 
-    return {"message": "Uploaded and indexed.", "files": processed}
+    return {"message": "Uploaded and indexed successfully.", "files": processed}
 
 
 # ── Query ─────────────────────────────────────────────────────────────────────
