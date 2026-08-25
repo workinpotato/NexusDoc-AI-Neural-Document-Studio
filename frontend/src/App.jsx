@@ -143,25 +143,25 @@ export default function App() {
     <div className="min-h-screen bg-space-950 text-slate-100 selection:bg-cyan-500/30 selection:text-cyan-200">
       <Header status={systemStatus} onFocusQuestion={() => questionRef.current?.focus()} />
 
-      <main className="relative mx-auto w-full max-w-[1440px] px-4 pb-20 pt-8 sm:px-6 lg:px-8">
+      <main className="relative mx-auto w-full max-w-[1280px] px-4 pb-12 pt-6 sm:px-6 lg:px-8">
         <div className="ambient-glow" aria-hidden="true" />
 
         {/* Hero Studio Banner */}
-        <section className="hero-panel relative overflow-hidden rounded-[28px] px-6 py-9 sm:px-10 sm:py-12">
+        <section className="hero-panel relative overflow-hidden rounded-[28px] px-6 py-7 sm:px-8 sm:py-8">
           <div className="relative z-10 max-w-3xl">
             <div className="eyebrow">
               <Sparkles size={13} className="text-cyan-300" />
               <span>Neural Retrieval & Grounding Studio</span>
             </div>
-            <h1 className="mt-5 max-w-2xl text-3xl font-extrabold tracking-tight text-white sm:text-5xl sm:leading-[1.15]">
+            <h1 className="mt-4 max-w-2xl text-3xl font-extrabold tracking-tight text-white sm:text-5xl sm:leading-[1.15]">
               Intelligent Document Synthesis with <span className="bg-gradient-to-r from-cyan-400 via-teal-300 to-sky-400 bg-clip-text text-transparent">Zero Hallucinations</span>.
             </h1>
-            <p className="mt-4 max-w-xl text-sm leading-relaxed text-slate-300 sm:text-base">
+            <p className="mt-3 max-w-xl text-sm leading-relaxed text-slate-300 sm:text-base">
               Ingest complex multi-page PDFs, perform high-dimensional FAISS semantic search, and synthesize verified answers with transparent citation evidence.
             </p>
 
             {/* Pipeline Steps */}
-            <div className="mt-8 flex flex-wrap items-center gap-2.5 text-xs text-slate-400">
+            <div className="mt-6 flex flex-wrap items-center gap-2.5 text-xs text-slate-400">
               {[
                 { label: 'PDF Parsing', icon: BookOpen },
                 { label: 'Vector Indexing', icon: Database },
@@ -192,9 +192,9 @@ export default function App() {
         </section>
 
         {/* Workbench Workspace Grid */}
-        <div className="mt-8 grid items-start gap-8 lg:grid-cols-[minmax(340px,0.82fr)_minmax(0,1.45fr)]">
+        <div className="mt-5 grid items-start gap-5 lg:grid-cols-[minmax(340px,0.82fr)_minmax(0,1.45fr)]">
           {/* Left Column: Knowledge Base Bay */}
-          <div className="space-y-6 min-w-0">
+          <div className="space-y-5 min-w-0">
             <UploadZone
               files={selectedFiles}
               uploading={uploading}
@@ -215,7 +215,7 @@ export default function App() {
           </div>
 
           {/* Right Column: Neural Query & Answer Canvas */}
-          <div className="space-y-6 min-w-0">
+          <div className="space-y-5 min-w-0">
             <QuestionInput
               ref={questionRef}
               value={question}
@@ -233,7 +233,7 @@ export default function App() {
             )}
 
             {/* Answer & Evidence Canvas */}
-            <div className={hasResult ? 'result-enter space-y-6' : 'space-y-6'}>
+            <div className={hasResult ? 'result-enter space-y-5' : 'space-y-5'}>
               <div className="flex items-center justify-between">
                 <div>
                   <p className="section-kicker">Synthesizer Canvas</p>
@@ -265,8 +265,8 @@ export default function App() {
       </main>
 
       {/* Modern Studio Footer */}
-      <footer className="border-t border-white/[0.08] bg-space-950/80 px-6 py-8 text-center backdrop-blur-md">
-        <div className="mx-auto flex max-w-[1440px] flex-col items-center justify-between gap-4 text-xs font-medium text-slate-400 sm:flex-row">
+      <footer className="border-t border-white/[0.08] bg-space-950/80 px-6 py-5 text-center backdrop-blur-md">
+        <div className="mx-auto flex max-w-[1280px] flex-col items-center justify-between gap-4 text-xs font-medium text-slate-400 sm:flex-row">
           <div className="flex items-center gap-2">
             <span className="h-2 w-2 rounded-full bg-cyan-400"></span>
             <span className="text-slate-300 font-semibold">NexusDoc AI Studio</span>
