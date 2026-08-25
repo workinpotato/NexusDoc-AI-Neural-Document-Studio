@@ -3,6 +3,7 @@ main.py — FastAPI entry point for NexusDoc AI
 Endpoints: GET /api/health, POST /api/upload, POST /api/query
 """
 
+import os
 import shutil
 import traceback
 from pathlib import Path
@@ -15,8 +16,10 @@ from typing import List
 from rag import rebuild_index, answer_question
 
 # ── Paths ─────────────────────────────────────────────────────────────────────
-DOCUMENTS_DIR = Path(__file__).parent.parent / "documents"
-DOCUMENTS_DIR.mkdir(exist_ok=True)
+PROJECT_ROOT = Path(__file__).parent.parent
+RUNTIME_ROOT = Path("/tmp/nexusdoc") if os.getenv("VERCEL") else PROJECT_ROOT
+DOCUMENTS_DIR = RUNTIME_ROOT / "documents"
+DOCUMENTS_DIR.mkdir(parents=True, exist_ok=True)
 
 # ── App ───────────────────────────────────────────────────────────────────────
 app = FastAPI(

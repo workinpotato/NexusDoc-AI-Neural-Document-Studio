@@ -35,7 +35,9 @@ from langchain_core.documents import Document
 # ── Config ────────────────────────────────────────────────────────────────────
 load_dotenv()
 
-FAISS_DIR = str(Path(__file__).parent.parent / "faiss_index")
+PROJECT_ROOT = Path(__file__).parent.parent
+RUNTIME_ROOT = Path("/tmp/nexusdoc") if os.getenv("VERCEL") else PROJECT_ROOT
+FAISS_DIR = str(RUNTIME_ROOT / "faiss_index")
 EMBEDDING_MODEL = "gemini-embedding-2-preview"
 # Fallback list of models in case one has 429 quota exhaustion or 404
 GEMINI_MODELS = [
