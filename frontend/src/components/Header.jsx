@@ -1,7 +1,7 @@
 ﻿import { Command, Cpu, Sparkles } from 'lucide-react'
 
 function SystemStatus({ status }) {
-  const label = status === 'online' ? 'Neural Engine Active' : status === 'offline' ? 'Engine Offline' : 'Connecting…'
+  const label = status === 'online' ? 'Ready' : status === 'offline' ? 'Service unavailable' : 'Connecting…'
   return (
     <div className={`status-pill status-${status}`} role="status">
       <span className="status-dot" />
@@ -21,14 +21,14 @@ export default function Header({ status, onFocusQuestion }) {
           <div className="min-w-0">
             <div className="flex items-center gap-2">
               <span className="truncate text-base font-extrabold tracking-tight text-white">
-                Nexus<span className="bg-gradient-to-r from-cyan-400 to-teal-300 bg-clip-text text-transparent">Doc</span> AI
+                NexusDoc
               </span>
               <span className="hidden rounded-full border border-cyan-500/20 bg-cyan-500/10 px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider text-cyan-300 sm:inline-block">
-                Studio
+                Docs
               </span>
             </div>
             <div className="hidden text-[11px] font-medium text-slate-400 sm:block">
-              Neural Document Intelligence & Grounded Synthesis
+              Search and cite your PDF documents
             </div>
           </div>
         </div>

@@ -21,10 +21,10 @@ const QuestionInput = forwardRef(function QuestionInput({ value, querying, onCha
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2 text-sm font-bold text-slate-100">
           <MessageSquarePlus size={18} className="text-cyan-400" />
-          <span>Neural Query Console</span>
+          <span>Ask your documents</span>
         </div>
         <span className="text-[11px] font-medium text-slate-400">
-          {value.length > 0 ? `${value.length} / 4000 chars` : 'Markdown & Multi-chunk Search'}
+          {value.length > 0 ? `${value.length} / 4000 chars` : 'Searches your indexed documents'}
         </span>
       </div>
 
@@ -70,7 +70,7 @@ const QuestionInput = forwardRef(function QuestionInput({ value, querying, onCha
               ) : (
                 <>
                   <Sparkles size={15} />
-                  <span>Query Nexus</span>
+                  <span>Ask question</span>
                 </>
               )}
             </button>
@@ -79,7 +79,7 @@ const QuestionInput = forwardRef(function QuestionInput({ value, querying, onCha
       </div>
 
       <div className="mt-4">
-        <p className="section-kicker">Recommended Inquiries</p>
+        <p className="section-kicker">Sample questions</p>
         <div className="mt-2.5 flex flex-wrap gap-2">
           {suggestions.map(suggestion => (
             <button

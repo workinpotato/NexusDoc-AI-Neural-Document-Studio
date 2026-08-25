@@ -8,7 +8,7 @@ export default function AnswerEmptyState() {
           <Bot size={18} />
         </span>
         <div>
-          <p className="text-sm font-bold text-white">Grounded Neural Synthesis</p>
+          <p className="text-sm font-bold text-white">Answer</p>
           <p className="text-[11px] font-medium text-slate-400">Awaiting your prompt and document index</p>
         </div>
       </div>
@@ -18,11 +18,11 @@ export default function AnswerEmptyState() {
         </span>
         <h3 className="mt-5 text-base font-bold text-slate-100">Ready for Document Analysis</h3>
         <p className="mt-2 max-w-md text-xs leading-relaxed text-slate-400">
-          Upload and index your PDF documents in the ingestion bay, then submit questions above to generate grounded answers with transparent citations.
+          Upload PDFs, then ask a question above to see an answer and the passages that support it.
         </p>
         <div className="mt-6 flex items-center gap-2 rounded-full border border-cyan-500/20 bg-cyan-950/40 px-3.5 py-1.5 text-[11px] font-medium text-cyan-300">
           <Sparkles size={13} />
-          <span>Zero hallucinations · Pure context-grounded intelligence</span>
+          <span>Answers include supporting passages</span>
         </div>
       </div>
     </div>

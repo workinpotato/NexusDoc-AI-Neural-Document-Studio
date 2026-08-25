@@ -30,7 +30,7 @@ export default function AnswerCard({ answer, sourceCount, loading, error, onRetr
           </span>
           <div>
             <div className="flex items-center gap-2">
-              <p className="text-sm font-bold text-white">Grounded Neural Synthesis</p>
+              <p className="text-sm font-bold text-white">Answer</p>
               <span className="inline-flex items-center gap-1 rounded-md border border-cyan-400/20 bg-cyan-500/10 px-2 py-0.5 text-[10px] font-bold text-cyan-300">
                 <Sparkles size={10} /> Gemini 2.5 Flash
               </span>
@@ -78,7 +78,7 @@ export default function AnswerCard({ answer, sourceCount, loading, error, onRetr
           </div>
         ) : (
           <div className="flex items-center gap-2 text-sm text-amber-300">
-            <AlertTriangle size={16} /> No response was returned by the neural engine.
+            <AlertTriangle size={16} /> No response was returned.
           </div>
         )}
       </div>

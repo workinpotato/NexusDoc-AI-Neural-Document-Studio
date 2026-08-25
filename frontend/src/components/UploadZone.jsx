@@ -21,7 +21,7 @@ export default function UploadZone({ files, uploading, onFiles, onRemove, onUplo
     <section className="panel p-5 sm:p-6">
       <div className="flex items-start justify-between gap-3">
         <div>
-          <p className="section-kicker">Knowledge Ingestion</p>
+          <p className="section-kicker">Documents</p>
           <h2 className="mt-1 text-base font-bold text-white">Upload Documents</h2>
         </div>
         <span className="count-badge">{files.length} selected</span>
@@ -89,19 +89,19 @@ export default function UploadZone({ files, uploading, onFiles, onRemove, onUplo
         ) : (
           <>
             <FileUp size={16} />
-            <span>Index {files.length ? `${files.length} Document${files.length > 1 ? 's' : ''}` : 'Knowledge Base'}</span>
+            <span>Index {files.length ? `${files.length} Document${files.length > 1 ? 's' : ''}` : 'documents'}</span>
           </>
         )}
       </button>
       
       {!uploading && (
         <p className="mt-3 text-center text-[11px] font-medium leading-relaxed text-slate-400">
-          Indexing transforms PDFs into high-dimensional FAISS vectors for semantic retrieval.
+          Indexed documents are available for searching in this session.
         </p>
       )}
       {uploading && (
         <p className="mt-3 text-center text-[11px] font-medium leading-relaxed text-cyan-400/90 animate-pulse">
-          Processing text chunks and generating vector embeddings with Gemini & FAISS…
+          Preparing your documents for search…
         </p>
       )}
     </section>

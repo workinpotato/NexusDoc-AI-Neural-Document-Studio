@@ -13,9 +13,9 @@ export default function DocumentLibrary({ documents }) {
         <div>
           <div className="flex items-center gap-1.5">
             <Database size={13} className="text-cyan-400" />
-            <p className="section-kicker">Knowledge Registry</p>
+            <p className="section-kicker">Documents</p>
           </div>
-          <h2 className="mt-1 text-sm font-bold text-white">Active Vector Corpus</h2>
+          <h2 className="mt-1 text-sm font-bold text-white">Current collection</h2>
         </div>
         <span className="count-badge">{documents.length} indexed</span>
       </div>
@@ -40,7 +40,7 @@ export default function DocumentLibrary({ documents }) {
       ) : (
         <div className="mt-4 flex items-center gap-3 rounded-xl border border-dashed border-white/[0.08] px-4 py-4 text-xs font-medium text-slate-400">
           <Library size={16} className="text-slate-400" />
-          <span>Uploaded documents in this session will populate the active FAISS index.</span>
+          <span>Uploaded documents for this session will appear here.</span>
         </div>
       )}
     </section>

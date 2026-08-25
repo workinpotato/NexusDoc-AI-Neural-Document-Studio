@@ -151,22 +151,22 @@ export default function App() {
           <div className="relative z-10 max-w-3xl">
             <div className="eyebrow">
               <Sparkles size={13} className="text-cyan-300" />
-              <span>Neural Retrieval & Grounding Studio</span>
+              <span>Document workspace</span>
             </div>
             <h1 className="mt-4 max-w-2xl text-3xl font-extrabold tracking-tight text-white sm:text-5xl sm:leading-[1.15]">
-              Intelligent Document Synthesis with <span className="bg-gradient-to-r from-cyan-400 via-teal-300 to-sky-400 bg-clip-text text-transparent">Zero Hallucinations</span>.
+              Find answers in your documents, with the source close at hand.
             </h1>
             <p className="mt-3 max-w-xl text-sm leading-relaxed text-slate-300 sm:text-base">
-              Ingest complex multi-page PDFs, perform high-dimensional FAISS semantic search, and synthesize verified answers with transparent citation evidence.
+              Upload PDFs, ask a focused question, and review the passages used to form each answer.
             </p>
 
             {/* Pipeline Steps */}
             <div className="mt-6 flex flex-wrap items-center gap-2.5 text-xs text-slate-400">
               {[
-                { label: 'PDF Parsing', icon: BookOpen },
-                { label: 'Vector Indexing', icon: Database },
-                { label: 'Semantic Search', icon: Cpu },
-                { label: 'Grounded Answer', icon: ShieldCheck }
+                { label: 'Add PDFs', icon: BookOpen },
+                { label: 'Index documents', icon: Database },
+                { label: 'Search context', icon: Cpu },
+                { label: 'Review sources', icon: ShieldCheck }
               ].map((step, index) => {
                 const Icon = step.icon
                 return (
@@ -236,12 +236,12 @@ export default function App() {
             <div className={hasResult ? 'result-enter space-y-5' : 'space-y-5'}>
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="section-kicker">Synthesizer Canvas</p>
-                  <h2 className="mt-0.5 text-lg font-bold text-white">Verified Intelligence</h2>
+                  <p className="section-kicker">Answer</p>
+                  <h2 className="mt-0.5 text-lg font-bold text-white">Response and sources</h2>
                 </div>
                 {(answer || queryError) && (
                   <button className="secondary-button" onClick={clearResult}>
-                    <RotateCcw size={13} /> Clear Canvas
+                    <RotateCcw size={13} /> Clear
                   </button>
                 )}
               </div>
@@ -269,12 +269,12 @@ export default function App() {
         <div className="mx-auto flex max-w-[1280px] flex-col items-center justify-between gap-4 text-xs font-medium text-slate-400 sm:flex-row">
           <div className="flex items-center gap-2">
             <span className="h-2 w-2 rounded-full bg-cyan-400"></span>
-            <span className="text-slate-300 font-semibold">NexusDoc AI Studio</span>
+            <span className="text-slate-300 font-semibold">NexusDoc</span>
             <span>·</span>
-            <span>Neural RAG Engine with FAISS & Google Gemini</span>
+            <span>PDF research with FAISS and Gemini</span>
           </div>
           <div className="text-slate-400 text-[11px]">
-            Engineered for high-precision, citation-backed document research
+            Built for clear, source-backed document research
           </div>
         </div>
       </footer>
