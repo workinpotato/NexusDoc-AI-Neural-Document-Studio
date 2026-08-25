@@ -1,6 +1,6 @@
 ﻿"""
 main.py — FastAPI entry point for NexusDoc AI
-Endpoints: GET /health, POST /upload, POST /query
+Endpoints: GET /api/health, POST /api/upload, POST /api/query
 """
 
 import shutil
@@ -33,13 +33,13 @@ app.add_middleware(
 
 
 # ── Health ────────────────────────────────────────────────────────────────────
-@app.get("/health")
+@app.get("/api/health")
 def health():
     return {"status": "ok", "service": "NexusDoc AI Engine"}
 
 
 # ── Upload ────────────────────────────────────────────────────────────────────
-@app.post("/upload")
+@app.post("/api/upload")
 async def upload(files: List[UploadFile] = File(...)):
     """
     Accept one or more PDFs, save them, and ingest into FAISS.
@@ -81,7 +81,7 @@ class QueryRequest(BaseModel):
     question: str
 
 
-@app.post("/query")
+@app.post("/api/query")
 def query(req: QueryRequest):
     """
     Accept a natural language question.

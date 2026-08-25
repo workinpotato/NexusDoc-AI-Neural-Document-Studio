@@ -9,7 +9,7 @@ function errorMessage(error, fallback) {
 }
 
 export async function checkHealth() {
-  const response = await api.get('/health', { timeout: 8000 })
+  const response = await api.get('/api/health', { timeout: 8000 })
   return response.data
 }
 
@@ -17,7 +17,7 @@ export async function uploadDocuments(files) {
   const form = new FormData()
   files.forEach(file => form.append('files', file))
   try {
-    const response = await api.post('/upload', form)
+    const response = await api.post('/api/upload', form)
     return response.data
   } catch (error) {
     throw new Error(errorMessage(error, 'The documents could not be uploaded. Check the backend and try again.'))
@@ -26,7 +26,7 @@ export async function uploadDocuments(files) {
 
 export async function askQuestion(question) {
   try {
-    const response = await api.post('/query', { question })
+    const response = await api.post('/api/query', { question })
     return response.data
   } catch (error) {
     throw new Error(errorMessage(error, 'The question could not be processed. Please try again.'))
